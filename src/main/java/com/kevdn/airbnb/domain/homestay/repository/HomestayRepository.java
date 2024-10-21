@@ -45,7 +45,7 @@ public interface HomestayRepository extends JpaRepository<Homestay, Long> {
 
 //    JPQL
 //    @Query(value = """
-//    SELECT new com.roninhub.airbnb.domain.homestay.dto.response.HomestayDetail(
+//    SELECT new com.kevdn.airbnb.domain.homestay.dto.response.HomestayDetail(
 //    h.id, h.name, h.description, vh.avg_price)
 //    FROM Homestay h INNER JOIN (
 //        SELECT h.id, AVG(ha.price) as avg_price
