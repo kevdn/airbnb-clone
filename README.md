@@ -43,4 +43,33 @@ curl --location 'http://localhost:8080/api/v1/bookings' \
     "note": "note test"
 }'
 ```
+## Payment Testing
+This guide for Local Testing.
+
+1. Create an ngrok account and register a domain.
+2. Install ngrok in local machine and add the auth token.
+```bash
+snap install ngrok
+ngrok config add-authtoken <token>
+```
+3. Create tunnel
+```bash
+ngrok http 8080 --domain=<your-domain>.ngrok-free.app
+```
+
+4. Call the booking homestay API.
+
+5. Copy the `vnp_url` then paste onto the browser.
+
+6. Fake a payment:
+   - Choose "Thẻ nội địa"
+   - Bank: NCB
+   - Enter the card info:
+    ```
+    9704198526191432198
+    NGUYEN VAN A
+    07/15
+    ```
+   - Enter OTP: `123456`
+
 
