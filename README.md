@@ -7,13 +7,9 @@
 ## Techniques
 - Data Modeling
 - API Design
-- Codebase: Principles, Design Patterns
+- Codebase
 - Database
 - JPA/Hibernate
-- Caching
-- Unit Testing
-- Integration
-- Security
 - Deployment
 - ...
 
@@ -21,13 +17,10 @@
 - Programming Language: Java 21
 - Framework: Spring Boot 3.3.0
 - Database: Postgres 16
-- Cache: Redis 7
-- Unit Testing: JUnit 5
 - Integration: VNPay Payment Gateway
-- Security: JWT, Spring Security, ...
 - Deployment
   - Container: Docker
-  - CICD: Github Actions
+
 
   
 ## API cURL Sample
