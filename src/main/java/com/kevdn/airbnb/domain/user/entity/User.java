@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "airbnb")
 @RequiredArgsConstructor
 @Getter
 @Setter

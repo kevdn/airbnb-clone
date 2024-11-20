@@ -1,6 +1,8 @@
 package com.kevdn.airbnb.domain.homestay.service;
 
 import com.kevdn.airbnb.domain.booking.constant.AvailabilityStatus;
+import com.kevdn.airbnb.domain.common.constant.ResponseCode;
+import com.kevdn.airbnb.domain.common.exception.BusinessException;
 import com.kevdn.airbnb.domain.homestay.dto.HomestayDTO;
 import com.kevdn.airbnb.domain.homestay.dto.request.HomestaySearchRequest;
 import com.kevdn.airbnb.domain.homestay.entity.Homestay;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -30,19 +33,16 @@ public class HomestayService {
 
         var checkinDate = request.getCheckinDate();
         var checkoutDate = request.getCheckoutDate();
+        final var currentDate = LocalDate.now();
 
-//        if (request.getCheckinDate().isAfter(request.getCheckoutDate())) {
-//            throw new BusinessException(ResponseCode.CHECKIN_DATE_INVALID);
-//        }
-//
-//        if (request.getCheckinDate().isBefore(LocalDate.now())) {
-//            throw new BusinessException(ResponseCode.CHECKIN_DATE_INVALID);
-//        }
+        if (checkinDate.isBefore(currentDate) || checkinDate.isAfter(checkoutDate)) {
+            throw new BusinessException(ResponseCode.CHECKIN_DATE_INVALID);
+        }
 
         int nights = (int) DateUtil.getDiffInDays(checkinDate, checkoutDate);
         checkoutDate = checkoutDate.minusDays(1);
 
-        var homestays = repository.searchHomestay(
+        return repository.searchHomestay(
                 request.getLongitude(),
                 request.getLatitude(),
                 request.getRadius(),
@@ -52,7 +52,5 @@ public class HomestayService {
                 request.getGuests(),
                 request.getStatus().getValue()
         );
-
-        return homestays;
     }
 }

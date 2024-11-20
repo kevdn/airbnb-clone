@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ronin-airbnb
+    name: kevdn-airbnb
   jpa:
     properties:
       hibernate:
@@ -20,6 +20,8 @@ spring:
     username: user
     password: pass
     jpa:
+      properties:
+        hibernate.default_schema: airbnb
       show-sql: true
       hibernate:
         ddl-auto: none
@@ -27,6 +29,14 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
     default-property-inclusion: non_null
+
+payment:
+  vnpay:
+    tmn-code: Z8CKBA2L
+    secret-key: 8PN5PARWSNJ6LKY6E7FQKFZT6LUUYP4E
+    init-payment-url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+    return-url: http://localhost:8080/api/v1/payment/vnpay/return
+    timeout: 15 # in minutes
 
 logging:
   level:

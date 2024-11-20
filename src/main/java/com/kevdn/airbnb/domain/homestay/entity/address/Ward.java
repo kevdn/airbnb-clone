@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "ward")
+@Table(name = "ward", schema = "airbnb")
 @RequiredArgsConstructor
 @Getter
 @Setter

@@ -1,33 +1,20 @@
 package com.kevdn.airbnb.domain.booking.dto.response;
 
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import jakarta.persistence.Column;
-import lombok.*;
+import com.kevdn.airbnb.domain.booking.dto.request.BookingDto;
+import com.kevdn.airbnb.domain.payment.dto.response.InitPaymentResponse;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
-@RequiredArgsConstructor
+@Data
 @AllArgsConstructor
-@Getter
-@Setter
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@NoArgsConstructor
+@Builder
 public class BookingResponse {
-    private Long bookingId;
-    private Long userId;
-    private Long homestayId;
-    private String checkinDate;
-    private String checkoutDate;
-    private Integer guests;
 
-    private Integer status;
+    BookingDto booking;
 
-    private BigDecimal subtotal;
-    private BigDecimal discount;
-    private BigDecimal totalAmount;
-    private String currency;
-
-    private String requestId;
-    private String note;
+    InitPaymentResponse payment;
 }

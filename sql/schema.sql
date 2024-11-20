@@ -1,3 +1,8 @@
+drop database if exists airbnb;
+create database airbnb;
+set search_path to airbnb;
+create schema if not exists airbnb;
+CREATE EXTENSION postgis;
 create table homestay
 (
     id           bigint generated always as identity primary key,
@@ -11,7 +16,7 @@ create table homestay
     address      text,
     longitude    double precision,
     latitude     double precision,
-    geom         geometry(Point, 3857),
+    geom         geometry(Point, 3857), -- SRID 3857 is Pseudo-Mercator that Google Maps uses, unit is meter
 
     images text[],
 
@@ -95,7 +100,7 @@ create table homestay_availability
     homestay_id bigint not null,
     date        date   not null,
     price       numeric,
-    status      smallint,
+    status      smallint, -- 0: available, 1: booked
     primary key (homestay_id, date)
 );
 
@@ -138,6 +143,6 @@ create table province
     country_id    integer
 );
 
-CREATE EXTENSION postgis;
+
 
 create index idx_homestay_geom on homestay using gist (geom);

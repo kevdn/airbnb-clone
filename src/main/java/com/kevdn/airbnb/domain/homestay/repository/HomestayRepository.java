@@ -25,7 +25,7 @@ public interface HomestayRepository extends JpaRepository<Homestay, Long> {
          from destination d,
               homestay h
          join homestay_availability ha on h.id = ha.homestay_id
-         where st_dwithin(h.geom, d.geom, :radius)
+         where st_dwithin(h.geom, d.geom, :radius)  -- within radius
            and h.guests >= :guests
            and ha.date between :checkinDate and :checkoutDate
            and ha.status = :status

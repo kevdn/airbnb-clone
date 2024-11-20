@@ -2,7 +2,9 @@ package com.kevdn.airbnb.domain.booking.service;
 
 import com.kevdn.airbnb.domain.booking.constant.AvailabilityStatus;
 import com.kevdn.airbnb.domain.booking.constant.BookingStatus;
+import com.kevdn.airbnb.domain.booking.dto.request.BookingDto;
 import com.kevdn.airbnb.domain.booking.dto.request.BookingRequest;
+import com.kevdn.airbnb.domain.booking.dto.request.BookingStatusResponse;
 import com.kevdn.airbnb.domain.booking.dto.response.BookingResponse;
 import com.kevdn.airbnb.domain.booking.entity.Booking;
 import com.kevdn.airbnb.domain.booking.mapper.BookingMapper;
@@ -11,11 +13,14 @@ import com.kevdn.airbnb.domain.common.constant.ResponseCode;
 import com.kevdn.airbnb.domain.common.exception.BusinessException;
 import com.kevdn.airbnb.domain.homestay.constant.HomestayStatus;
 import com.kevdn.airbnb.domain.homestay.service.HomestayService;
+import com.kevdn.airbnb.domain.payment.dto.request.InitPaymentRequest;
+import com.kevdn.airbnb.domain.payment.service.PaymentService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDate;
 
@@ -24,10 +29,11 @@ import java.time.LocalDate;
 @Slf4j
 public class BookingService {
 
-    private final BookingRepository bookingRepository;
+    private final BookingRepository repository;
     private final AvailabilityService availabilityService;
     private final HomestayService homestayService;
     private final PricingService pricingService;
+    private final PaymentService paymentService;
     private final BookingMapper mapper;
 
 
@@ -66,9 +72,55 @@ public class BookingService {
         aDays.forEach(a -> a.setStatus(AvailabilityStatus.BOOKED.getValue()));
 
         availabilityService.saveAll(aDays);
-        bookingRepository.save(booking);
+        repository.save(booking);
+
+        var initPaymentRequest = InitPaymentRequest.builder()
+                .userId(booking.getUserId())
+                .amount(booking.getTotalAmount().longValue())
+                .txnRef(String.valueOf(booking.getId()))
+                .requestId(booking.getRequestId())
+                .ipAddress(request.getIpAddress())
+                .build();
+
+        var initPaymentResponse = paymentService.init(initPaymentRequest);
+        var bookingDto = mapper.toBookingDto(booking);
         log.info("[request_id={}] User user_id={} created booking_id={} successfully", request.getRequestId(), request.getUserId(), booking.getId());
-        return mapper.toResponse(booking);
+        return BookingResponse.builder()
+                .booking(bookingDto)
+                .payment(initPaymentResponse)
+                .build();
+    }
+
+    @Transactional
+    public BookingDto markBooked(Long bookingId) {
+        final var bookingOpt = repository.findById(bookingId);
+        if (bookingOpt.isEmpty()) {
+            throw new BusinessException(ResponseCode.BOOKING_NOT_FOUND);
+        }
+
+        final var booking = bookingOpt.get();
+        final var aDays = availabilityService.getRange(
+                booking.getHomestayId(),
+                booking.getCheckinDate(),
+                booking.getCheckoutDate()
+        );
+
+        booking.setStatus(BookingStatus.BOOKED.getValue());
+        aDays.forEach(a -> a.setStatus(AvailabilityStatus.BOOKED.getValue()));
+
+        availabilityService.saveAll(aDays);
+        repository.save(booking);
+
+        return mapper.toBookingDto(booking);
+    }
+
+    public BookingStatusResponse getBookingStatus(Long bookingId) {
+        final var bookingOpt = repository.findById(bookingId);
+        if (bookingOpt.isEmpty()) {
+            throw new BusinessException(ResponseCode.BOOKING_NOT_FOUND);
+        }
+
+        return mapper.toBookingStatusResponse(bookingOpt.get());
     }
 
     private void validateRequest(final BookingRequest request) {
@@ -76,13 +128,13 @@ public class BookingService {
         final var checkoutDate = request.getCheckoutDate();
         final var currentDate = LocalDate.now();
 
-        if (checkinDate.isBefore(currentDate) || checkinDate.isAfter(checkoutDate)) {
-            throw new BusinessException(ResponseCode.CHECKIN_DATE_INVALID);
-        }
-
-        if (request.getGuests() <= 0) {
-            throw new BusinessException(ResponseCode.GUESTS_INVALID);
-        }
+//        if (checkinDate.isBefore(currentDate) || checkinDate.isAfter(checkoutDate)) {
+//            throw new BusinessException(ResponseCode.CHECKIN_DATE_INVALID);
+//        }
+//
+//        if (request.getGuests() <= 0) {
+//            throw new BusinessException(ResponseCode.GUESTS_INVALID);
+//        }
     }
 
     private void validateHomestay(final BookingRequest request) {
