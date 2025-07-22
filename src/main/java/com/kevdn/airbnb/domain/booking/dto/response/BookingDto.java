@@ -1,4 +1,5 @@
-package com.kevdn.airbnb.domain.booking.dto.request;
+package com.kevdn.airbnb.domain.booking.dto.response;
+
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

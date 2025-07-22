@@ -2,15 +2,14 @@ package com.kevdn.airbnb.api;
 
 import com.kevdn.airbnb.app.dto.response.ResponseDto;
 import com.kevdn.airbnb.app.service.ResponseFactory;
+import com.kevdn.airbnb.app.util.RequestUtil;
 import com.kevdn.airbnb.domain.booking.dto.request.BookingRequest;
-import com.kevdn.airbnb.domain.booking.dto.response.BookingResponse;
 import com.kevdn.airbnb.domain.booking.service.BookingService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import com.kevdn.airbnb.app.util.RequestUtil;
 
 
 @RestController

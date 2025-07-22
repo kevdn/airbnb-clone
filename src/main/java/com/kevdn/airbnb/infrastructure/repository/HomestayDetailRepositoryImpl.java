@@ -1,9 +1,9 @@
 //package com.kevdn.airbnb.infrastructure.repository;
 //
-//import com.kevdn.airbnb.domain.homestay.dto.HomestayDTO;
-//import com.kevdn.airbnb.domain.homestay.dto.request.HomestaySearchRequest;
-//import com.kevdn.airbnb.domain.homestay.dto.response.HomestayDetail;
-//import com.kevdn.airbnb.domain.homestay.repository.HomestayDetailRepository;
+//import dto.homestay.domain.com.kevdn.airbnb.HomestayDTO;
+//import request.dto.homestay.domain.com.kevdn.airbnb.HomestaySearchRequest;
+//import response.dto.homestay.domain.com.kevdn.airbnb.HomestayDetail;
+//import repository.homestay.domain.com.kevdn.airbnb.HomestayDetailRepository;
 //import jakarta.persistence.EntityManager;
 //import jakarta.persistence.Query;
 //import lombok.RequiredArgsConstructor;

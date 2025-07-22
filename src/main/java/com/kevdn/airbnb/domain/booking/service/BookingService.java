@@ -2,10 +2,10 @@ package com.kevdn.airbnb.domain.booking.service;
 
 import com.kevdn.airbnb.domain.booking.constant.AvailabilityStatus;
 import com.kevdn.airbnb.domain.booking.constant.BookingStatus;
-import com.kevdn.airbnb.domain.booking.dto.request.BookingDto;
 import com.kevdn.airbnb.domain.booking.dto.request.BookingRequest;
-import com.kevdn.airbnb.domain.booking.dto.request.BookingStatusResponse;
+import com.kevdn.airbnb.domain.booking.dto.response.BookingDto;
 import com.kevdn.airbnb.domain.booking.dto.response.BookingResponse;
+import com.kevdn.airbnb.domain.booking.dto.response.BookingStatusResponse;
 import com.kevdn.airbnb.domain.booking.entity.Booking;
 import com.kevdn.airbnb.domain.booking.mapper.BookingMapper;
 import com.kevdn.airbnb.domain.booking.repository.BookingRepository;
@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 
 import java.time.LocalDate;
 
@@ -43,15 +42,13 @@ public class BookingService {
         validateRequest(request);
         validateHomestay(request);
 
-        final Long homestayId = request.getHomestayId();
-        final LocalDate checkinDate = request.getCheckinDate();
-        final LocalDate checkoutDate = request.getCheckoutDate();
+        final var homestayId = request.getHomestayId();
+        final var checkinDate = request.getCheckinDate();
+        final var checkoutDate = request.getCheckoutDate();
 
         log.debug("[request_id={}] User user_id={} is acquiring lock homestay_id={} from checkin_date={} to checkout_date={}", request.getRequestId(), request.getUserId(), homestayId, checkinDate, checkoutDate);
         final var aDays = availabilityService.checkAvailabilityForBooking(homestayId, checkinDate, checkoutDate);
         log.debug("[request_id={}] User user_id={} locked homestay_id={} from checkin_date={} to checkout_date={}", request.getRequestId(), request.getUserId(), request.getHomestayId(), checkinDate, checkoutDate);
-
-        Thread.sleep(5000);
 
         final var price = pricingService.calculate(aDays);
         final var booking = Booking.builder()
@@ -65,11 +62,11 @@ public class BookingService {
                 .totalAmount(price.getTotalAmount())
                 .currency(price.getCurrency())
                 .note(request.getNote())
-                .status(BookingStatus.BOOKED.getValue())
+                .status(BookingStatus.PAYMENT_PROCESSING.getValue())
                 .requestId(request.getRequestId())
                 .build();
 
-        aDays.forEach(a -> a.setStatus(AvailabilityStatus.BOOKED.getValue()));
+        aDays.forEach(a -> a.setStatus(AvailabilityStatus.HELD.getValue()));
 
         availabilityService.saveAll(aDays);
         repository.save(booking);
@@ -128,13 +125,13 @@ public class BookingService {
         final var checkoutDate = request.getCheckoutDate();
         final var currentDate = LocalDate.now();
 
-//        if (checkinDate.isBefore(currentDate) || checkinDate.isAfter(checkoutDate)) {
-//            throw new BusinessException(ResponseCode.CHECKIN_DATE_INVALID);
-//        }
-//
-//        if (request.getGuests() <= 0) {
-//            throw new BusinessException(ResponseCode.GUESTS_INVALID);
-//        }
+        if (checkinDate.isBefore(currentDate) || checkinDate.isAfter(checkoutDate)) {
+            throw new BusinessException(ResponseCode.CHECKIN_DATE_INVALID);
+        }
+
+        if (request.getGuests() <= 0) {
+            throw new BusinessException(ResponseCode.GUESTS_INVALID);
+        }
     }
 
     private void validateHomestay(final BookingRequest request) {

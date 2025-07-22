@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "homestay_availability", schema = "airbnb")
+@Table(name = "homestay_availability")
 @IdClass(HomestayAvailabilityId.class)
 @RequiredArgsConstructor
 @AllArgsConstructor

@@ -1,8 +1,7 @@
 package com.kevdn.airbnb.domain.booking.mapper;
 
-import com.kevdn.airbnb.domain.booking.dto.request.BookingDto;
-import com.kevdn.airbnb.domain.booking.dto.request.BookingStatusResponse;
-import com.kevdn.airbnb.domain.booking.dto.response.BookingResponse;
+import com.kevdn.airbnb.domain.booking.dto.response.BookingDto;
+import com.kevdn.airbnb.domain.booking.dto.response.BookingStatusResponse;
 import com.kevdn.airbnb.domain.booking.entity.Booking;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

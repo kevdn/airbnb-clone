@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "amenity", schema = "airbnb")
+@Table(name = "amenity")
 @RequiredArgsConstructor
 @Getter
 @Setter

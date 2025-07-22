@@ -52,7 +52,7 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "homestay", schema = "airbnb")
+@Table(name = "homestay")
 @RequiredArgsConstructor
 @Getter
 @Setter

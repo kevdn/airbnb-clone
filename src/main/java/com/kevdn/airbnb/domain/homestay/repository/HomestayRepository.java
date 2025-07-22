@@ -25,7 +25,7 @@ public interface HomestayRepository extends JpaRepository<Homestay, Long> {
          from destination d,
               homestay h
          join homestay_availability ha on h.id = ha.homestay_id
-         where st_dwithin(h.geom, d.geom, :radius)  -- within radius
+         where st_dwithin(h.geom, d.geom, :radius)
            and h.guests >= :guests
            and ha.date between :checkinDate and :checkoutDate
            and ha.status = :status
@@ -45,7 +45,7 @@ public interface HomestayRepository extends JpaRepository<Homestay, Long> {
 
 //    JPQL
 //    @Query(value = """
-//    SELECT new com.kevdn.airbnb.domain.homestay.dto.response.HomestayDetail(
+//    SELECT new response.dto.homestay.domain.com.kevdn.airbnb.HomestayDetail(
 //    h.id, h.name, h.description, vh.avg_price)
 //    FROM Homestay h INNER JOIN (
 //        SELECT h.id, AVG(ha.price) as avg_price

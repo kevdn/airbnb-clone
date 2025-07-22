@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "booking", schema = "airbnb")
+@Table(name = "booking")
 @RequiredArgsConstructor
 @Getter
 @Setter

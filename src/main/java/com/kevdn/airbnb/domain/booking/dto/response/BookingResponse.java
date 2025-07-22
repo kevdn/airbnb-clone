@@ -1,7 +1,5 @@
 package com.kevdn.airbnb.domain.booking.dto.response;
 
-
-import com.kevdn.airbnb.domain.booking.dto.request.BookingDto;
 import com.kevdn.airbnb.domain.payment.dto.response.InitPaymentResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.kevdn.airbnb.domain.booking.service;
 
-import com.kevdn.airbnb.domain.booking.constant.Currency;
+import com.kevdn.airbnb.domain.common.constant.Currency;
 import com.kevdn.airbnb.domain.booking.dto.BookingPrice;
 import com.kevdn.airbnb.domain.booking.entity.HomestayAvailability;
 import lombok.RequiredArgsConstructor;

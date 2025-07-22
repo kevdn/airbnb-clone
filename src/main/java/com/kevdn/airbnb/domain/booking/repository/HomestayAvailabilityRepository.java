@@ -36,5 +36,4 @@ public interface HomestayAvailabilityRepository extends JpaRepository<HomestayAv
     List<HomestayAvailability> findRange(@Param("homestayId") Long homestayId,
                                          @Param("checkinDate") LocalDate checkinDate,
                                          @Param("checkoutDate") LocalDate checkoutDate);
-
 }

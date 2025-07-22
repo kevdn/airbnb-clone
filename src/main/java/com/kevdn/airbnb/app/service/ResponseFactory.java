@@ -18,7 +18,7 @@ public class ResponseFactory {
     String appName;
 
 
-    public ResponseDto response(ResponseCode responseCode) {
+    public ResponseDto success(ResponseCode responseCode) {
         var meta = Meta.builder()
                 .status(responseCode.getType())
                 .serviceId(appName)

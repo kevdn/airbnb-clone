@@ -1,8 +1,8 @@
-package com.kevdn.airbnb.domain.booking.dto.request;
+package com.kevdn.airbnb.domain.booking.dto.response;
+
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.kevdn.airbnb.domain.booking.constant.BookingStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

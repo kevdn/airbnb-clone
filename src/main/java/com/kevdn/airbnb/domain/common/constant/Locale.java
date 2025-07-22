@@ -1,5 +1,6 @@
 package com.kevdn.airbnb.domain.common.constant;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

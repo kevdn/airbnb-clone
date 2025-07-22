@@ -32,12 +32,12 @@ public class ApiExceptionHandler {
         if (code != null) {
             return ResponseEntity
                     .status(code.getCode())
-                    .body(responseFactory.response(code));
+                    .body(responseFactory.success(code));
         }
 
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(responseFactory.response(ResponseCode.INTERNAL_SERVER_ERROR));
+                .body(responseFactory.success(ResponseCode.INTERNAL_SERVER_ERROR));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -54,6 +54,6 @@ public class ApiExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Throwable.class)
     ResponseDto handleThrowable(Throwable e) {
-        return responseFactory.response(ResponseCode.INTERNAL_SERVER_ERROR);
+        return responseFactory.success(ResponseCode.INTERNAL_SERVER_ERROR);
     }
 }

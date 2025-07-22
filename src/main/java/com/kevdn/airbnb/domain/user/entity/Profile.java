@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "profile", schema = "airbnb")
+@Table(name = "profile")
 @RequiredArgsConstructor
 @Getter
 @Setter
